@@ -1,0 +1,10 @@
+{
+    "name": "Gam",
+    "aliases": [
+        "name1",
+        "name2"
+    ],
+    "description": {
+        "global": "cute pickle"
+    }
+}

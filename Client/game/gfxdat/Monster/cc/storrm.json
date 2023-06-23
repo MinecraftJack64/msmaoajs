@@ -1,0 +1,410 @@
+{
+    "srcext": ".svg",
+    "srcs": [
+      {
+        "src": "body",
+        "defaultposition": {
+          "rot": 0,
+          "size": 1,
+          "x": ".CENTER",
+          "y": ".CENTER"
+        }
+      },
+      {
+        "src": "leftarm",
+        "defaultposition": {
+          "rot": 0,
+          "size": 1,
+          "x": 35,
+          "y": 12
+        }
+      },
+      {
+        "src": "mouth",
+        "defaultposition": {
+          "rot": 0,
+          "size": 1,
+          "x": ".CENTER",
+          "y": ".CENTER"
+        }
+      },
+      {
+        "src": "eye1",
+        "defaultposition": {
+          "rot": 0,
+          "size": 0.9,
+          "x": ".CENTER",
+          "y": ".CENTER"
+        }
+      },
+      {
+        "src": "lightning",
+        "defaultposition": {
+          "rot": 0,
+          "size": 1,
+          "x": ".CENTER",
+          "y": 0
+        }
+      },
+      {
+        "src": "lefthorn",
+        "defaultposition": {
+          "rot": 0,
+          "size": 1,
+          "x": 20,
+          "y": 20
+        }
+      },
+      {
+        "src": "righthorn",
+        "defaultposition": {
+          "rot": 0,
+          "size": 1,
+          "x": 8,
+          "y": 20
+        }
+      }
+    ],
+    "config": [
+      {
+        "name": "main",
+        "srcmeta": [
+          {
+            "id": 0
+          }
+        ]
+      },
+      {
+        "name": "leftarm",
+        "srcmeta": [
+          {
+            "id": 1
+          }
+        ]
+      },
+      {
+        "name": "rightarm",
+        "srcmeta": [
+          {
+            "id": 1
+          }
+        ]
+      },
+      {
+        "name": "mouth",
+        "srcmeta": [
+          {
+            "id": 2
+          }
+        ]
+      },
+      {
+        "name": "leye",
+        "srcmeta": [
+          {
+            "id": 3
+          }
+        ]
+      },
+      {
+        "name": "reye",
+        "srcmeta": [
+          {
+            "id": 3
+          }
+        ]
+      },
+      {
+        "name": "meye",
+        "srcmeta": [
+          {
+            "id": 3
+          }
+        ]
+      },
+      {
+        "name": "lightning",
+        "srcmeta": [
+          {
+            "id": 4
+          }
+        ]
+      },
+      {
+        "name": "lefthorn",
+        "srcmeta": [
+          {
+            "id": 5
+          }
+        ]
+      },
+      {
+        "name": "righthorn",
+        "srcmeta": [
+          {
+            "id": 6
+          }
+        ]
+      }
+    ],
+    "defaulttree": {
+      "name": "BaseBone",
+      "length": 0,
+      "deg": -90,
+      "children": [
+        {
+          "mode": "ligament",
+          "name": "BodyLigament",
+          "x": 0,
+          "y": 35,
+          "children": [
+            {
+              "name": "BodyBone",
+              "length": 0,
+              "deg": 0,
+              "children": [
+                {
+                  "mode": "ligament",
+                  "name": "Leftmount",
+                  "x": -19,
+                  "y": -2,
+                  "children": [
+                    {
+                      "name": "Leftstub",
+                      "length": 0,
+                      "deg": 0
+                    }
+                  ]
+                },
+                {
+                  "mode": "ligament",
+                  "name": "Rightmount",
+                  "x": 19,
+                  "y": -2,
+                  "children": [
+                    {
+                      "name": "Rightstub",
+                      "length": 0,
+                      "deg": 0
+                    }
+                  ]
+                },
+                {
+                  "mode": "ligament",
+                  "name": "Rightheadmount",
+                  "x": 13,
+                  "y": 4.7,
+                  "children": [
+                    {
+                      "name": "Rightheadstub",
+                      "length": 0,
+                      "deg": 0
+                    }
+                  ]
+                },
+                {
+                  "mode": "ligament",
+                  "name": "Leftheadmount",
+                  "x": -11,
+                  "y": 5,
+                  "children": [
+                    {
+                      "name": "Leftheadstub",
+                      "length": 0,
+                      "deg": 0
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "bindingmagic": [
+      {
+        "target": "BodyBone",
+        "subject": "main",
+        "binddata": {
+          "bindtype": "at"
+        }
+      },
+      {
+        "target": "BodyBone",
+        "subject": "meye",
+        "binddata": {
+          "bindtype": "at",
+          "offsetx": 0.7,
+          "offsety": 3.4
+        }
+      },
+      {
+        "target": "BodyBone",
+        "subject": "leye",
+        "binddata": {
+          "bindtype": "at",
+          "offsetx": -4.5,
+          "offsety": 0.9
+        }
+      },
+      {
+        "target": "BodyBone",
+        "subject": "reye",
+        "binddata": {
+          "bindtype": "at",
+          "offsetx": 5.8,
+          "offsety": 0.9
+        }
+      },
+      {
+        "target": "BodyBone",
+        "subject": "mouth",
+        "binddata": {
+          "bindtype": "at",
+          "offsetx": 1,
+          "offsety": -4
+        }
+      },
+      {
+        "target": "Rightstub",
+        "subject": "rightarm",
+        "binddata": {
+          "bindtype": "at"
+        }
+      },
+      {
+        "target": "Leftstub",
+        "subject": "leftarm",
+        "binddata": {
+          "bindtype": "at"
+        }
+      },
+      {
+        "target": "Leftheadstub",
+        "subject": "lefthorn",
+        "binddata": {
+          "bindtype": "at"
+        }
+      },
+      {
+        "target": "Rightheadstub",
+        "subject": "righthorn",
+        "binddata": {
+          "bindtype": "at"
+        }
+      },
+      {
+        "target": "BodyBone",
+        "subject": "lightning",
+        "binddata": {
+          "bindtype": "at",
+          "offsety": -5
+        }
+      }
+    ],
+    "scalefactor": 0.3,
+    "anims": {
+      "defaultstate": {
+        "mouth": {
+          "rot": 0,
+          "size": 1,
+          "x": 1,
+          "y": 4,
+          "visible": true,
+          "index": 0
+        },
+        "meye": {
+          "rot": 0,
+          "size": 1,
+          "x": 0.7,
+          "y": -3.4,
+          "visible": true,
+          "index": 0
+        },
+        "leye": {
+          "rot": 0,
+          "size": 1,
+          "x": -4.5,
+          "y": -0.9,
+          "visible": true,
+          "index": 0
+        },
+        "reye": {
+          "rot": 0,
+          "size": 1,
+          "x": 5.8,
+          "y": -0.9,
+          "visible": true,
+          "index": 0
+        },
+        "main": {
+          "rot": 0,
+          "size": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "index": 0
+        },
+        "lightning": {
+          "rot": 0,
+          "size": 1,
+          "x": 0,
+          "y": 5,
+          "visible": true,
+          "index": 0
+        },
+        "lefthorn": {
+          "rot": 0,
+          "size": 1,
+          "x": -11,
+          "y": -5,
+          "visible": true,
+          "index": 0
+        },
+        "righthorn": {
+          "rot": 0,
+          "size": 1,
+          "x": 13,
+          "y": -4.7,
+          "visible": true,
+          "index": 0
+        },
+        "leftarm": {
+          "rot": 0,
+          "size": 1,
+          "x": -19,
+          "y": 2,
+          "visible": true,
+          "index": 0
+        },
+        "rightarm": {
+          "rot": 0,
+          "size": 1,
+          "x": 19,
+          "y": 2,
+          "xs": -1,
+          "visible": true,
+          "index": 0
+        },
+        ".INDEXES": [
+          "rightarm",
+          "righthorn",
+          "lightning",
+          "main",
+          "mouth",
+          "meye",
+          "leye",
+          "reye",
+          "leftarm",
+          "lefthorn"
+        ]
+      },
+      "idle": {
+        "mode": "skeletal",
+        "state": ".DEFAULTSTATE"
+      },
+      "config": [
+        "idle"
+      ]
+    }
+  }
