@@ -1,0 +1,8 @@
+html
+    head
+        title Welcome
+    body
+        div Would you like to delete your account(#{id})? This action is irreversible.
+        form(method="POST", action="/delete")
+            input(type="hidden", name="_method", value="PUT")
+            input(type="submit")
