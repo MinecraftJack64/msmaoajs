@@ -1,0 +1,12 @@
+html
+    head
+        title Set favorite number
+    body
+        h5 #{message}
+        form(method="POST", action="/setnum")
+            input(type="hidden", name="_method", value="PUT")
+            p Enter your new favorite number
+            input(type="number", name="num")
+            p
+            input(type="submit")
+        a(href="/welcome") Return to main page

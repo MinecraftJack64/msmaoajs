@@ -17,12 +17,15 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
 const express = require('express')
+const socketio = require('socket.io')
 const crypto = require('crypto')
 const session = require('express-session')
 const fs = require('fs')
 const hostname = "127.0.0.1";
 
 const app = express();
+const server = require('http').createServer(app)
+const io = socketio(server)
 const port = 3000;
 
 app.set('view engine', 'pug')
@@ -35,6 +38,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser())
 app.use(session({saveUninitialized: true, resave: true, secret:"ogbdfoodbkfpobfskpod32332323|_+sevsdvv//?~ZZ"}))
+
+io.on('connection', (socket) => {
+  console.log('user connected');
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
+})
+io.on('message', (socket)=>{
+  console.log("message received")
+  socket.emit('messagereturn')
+})
+app.get('/testsocket', (req, res)=>{
+  res.sendFile(__dirname+'/testsocket.html')
+})
 
 var Users = [{id: "test", password: "pass"}]
 
@@ -179,4 +196,4 @@ app.use('/setnum', (err, req, res, next)=>{
   console.log(err)
   res.redirect('/login')
 })
-app.listen(port, () => console.log(`Le serveur est listener sur porte ${port}!`));
+server.listen(port, () => console.log(`Le serveur est listener sur porte ${port}!`));

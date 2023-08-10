@@ -157,10 +157,24 @@ var UniversalMetadata = {
       majorsingers: {'C':'Monster/cc'},
       format: 'lobby',
       subdivs: [2,2],
-      sequence: [{rep: {'.C/storrm':['.I/track1',2],'.C/bruc':['.I/track1',1]}},
+      /*Song formatting examples
+      Each element of the sequence array lasts commonverse beats at bpm beats per minute
+      Each further subarray is divided into equal parts of its own length.
+      for example, [1,[1,1,1],1,[1,1]]
+      is basically a quarter note, then a triplet, then another quarter note, and 2 eighths
+      If an element of an array is an object, it is assumed to be a message block
+      Everything under the property "rep" will have their track repeated a specified amount of times
+      Everything under the property "join" will repeatedly play their track for the remainder of the song
+      or until "leave" calls them which will instantly abort any track they were playing.
+      format example
+      {rep:{'monster1':['.I/track1',3], 'monster2':['.I/track1',4]}, leave:{'monster3':'.I/track1'}}
+      will make monster1 play its first track 3 times, monster2 4 times, and make monster3 return to idle
+      Monster names can be abbreviated using major singers
+      */
+      sequence: [{rep: {'.C/storrm':['.I/track1',2],'.C/bruc':['.I/track1',1]}, join: {'.C/staremin':'.I/track1'}},
                  {},
                  {rep:{'.C/storrm':['.I/track2',1]}},
-{}, {}],
+{}, {leave:['.C/staremin']}, {}],
       bpm: 100,
       commonverse: 8,
       tracks:{
@@ -170,6 +184,9 @@ var UniversalMetadata = {
         },
         '.C/bruc':{
           '.I/track1':4
+        },
+        '.C/staremin':{
+          '.I/track1':1
         }
       }
     }

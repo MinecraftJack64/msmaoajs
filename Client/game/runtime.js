@@ -203,7 +203,7 @@ class Bone extends Branch {
           var ry = this.tipy
         }
         if (x.mountx || x.mounty) {
-          let res = this.getrt((x.mountx || 0), (x.mounty || 0), ((this.parent.realdeg) || 0))
+          let res = this.getrt((x.mountx || 0), (x.mounty || 0), ((this.realdeg) || 0))
           x.state.x = rx + res.x
           x.state.y = ry + res.y
           x.state.rot = this.realdeg + 90 + (x.mountangle || 0)
@@ -400,7 +400,7 @@ class Sounder {
 }
 class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprite, index
   static gridstates = ['x', 'y', 'rot', 'size', 'visible', 'xs', 'ys', 'trans', 'sprite', 'index']
-  static formatstate(pos1, issprite = false) {
+  static formatstate(pos1, issprite = false) {//Formats an object into a State and marks it as formatted. Formatted objects are skipped
     if (pos1.format) {
       return 0
     }
@@ -420,7 +420,7 @@ class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprit
       pos1.format = 1
     }
   }
-  static clonestate(pos1) {
+  static clonestate(pos1) {//Clone a position
     var pos2 = {}
     Renderer.formatstate(pos1)
     for (var x of Renderer.gridstates) {
@@ -428,7 +428,7 @@ class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprit
     }
     return pos2
   }
-  static getanimtree(obj, select, list, path = '') {
+  static getanimtree(obj, select, list, path = '') {//Takes the animation config object and puts all paths into a list
     if (path != '')
       path += '/'
     for (var i = 0; i < obj.config.length; i++) {
@@ -440,7 +440,7 @@ class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprit
       }
     }
   }
-  static getexpandedpos(val, saltrange) {
+  static getexpandedpos(val, saltrange) {//Converts placeholder values into the actual numbers
     if (!val) {
       return 0
     } else {
@@ -454,7 +454,7 @@ class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprit
       }
     }
   }
-  static addpos(pos1, pos2) {
+  static addpos(pos1, pos2) {//Add two positions together and return the result(both originals unchanged, new one is a clone)
     let pos3 = {}
     Renderer.formatstate(pos1)
     Renderer.formatstate(pos2, true)
@@ -471,7 +471,7 @@ class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprit
     return pos3
   }
   ready = false
-  loadanims(select) {
+  loadanims(select) {//Load all animations(WIP)
     //CONFIGURE ANIMATION CHANNELS
     this.defaultpos = this.dat.anims.defaultstate
     this.animationset = {}
@@ -486,7 +486,7 @@ class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprit
     this.lastframe = -1
     this.lastanim = ""
   }
-  configureobj() {
+  configureobj() {//Organize all loaded resources into components(renderable objects)
     this.components = {}
 
     //CONFIGURE ALL RENDERER COMPONENTS
@@ -516,7 +516,7 @@ class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprit
       //env.devtools.miscrenderers.push(this.skeleton)
     }
   }
-  async getsrcpromise(srcs) {
+  async getsrcpromise(srcs) {//Load all images and put them in this.resources
     this.resources = await Promise.all(
       srcs.map(async (t, i) => {
         const tmpImage = new Image()
@@ -574,7 +574,7 @@ class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprit
     this.type = type
     this.initialize({env: env, type: type, select: select, seed: seed})
   }
-  plot(env, pos, ops) {
+  plot(env, pos, ops) {//Plot all objects on the canvas based on the latest calculations
     if (!this.ready)
       return false
     for (var x of this.renderjob) {
@@ -594,7 +594,7 @@ class Renderer {//All state vars: x, y, rot, size, visible, xs, ys, trans, sprit
     Game.ctx.transform(1, 0, 0, 1, pos.x, pos.y)//Position on island
     Game.ctx.drawImage(Skeleton.rotjointimage, 0, 0, Skeleton.rotjointimage.width, Skeleton.rotjointimage.height, -2, -2, 2, 2)
   }
-  applystates(state) {
+  applystates(state) {//Give all objects a state if they do not have one and return a list of the indexes of all visible objects
     let tr = []
     for (var x of state['.INDEXES']) {
       if (!this.components[x].hasOwnProperty('state')) {
@@ -643,7 +643,7 @@ var TSIZE = 1
 var TX = 10
 var TY = 10
 //import * as mypaths from './st/tracks/cloud/loader.js'
-class Popup {
+class Popup {//WIP
   //creating a popup
   constructor({
     title = "LISTEN UP!",
@@ -677,24 +677,26 @@ class CadenceNode {
   //subdivs = []
   count = 0
   onstart = function() { }
-  constructor(length, count, events = [], message = "Cadence called ", parent = null) {
-    if (count > 0) {
+  constructor(length, count, events = [], engine, message = "Cadence called ", parent = null) {
+    if (count > 0) {//Is child
       this.maxcount = count
       this.meter = length / count
-    } else {
+    } else {//Is the master node
       this.maxcount = 0
       this.meter = length
       //Debugger.log(this.meter+ " METRE")
     }
     this.debugmsg = message
-    this.eventloop = events
+    this.eventloop = [...events]
     this.divide()
     this.parent = parent
+    this.engine = engine
+    this.isactive = true
   }
   divide() {
     for (var i = 0; i < this.eventloop.length; i++) {
       if (Array.isArray(this.eventloop[i])) {
-        this.eventloop[i] = new CadenceNode(this.meter, this.eventloop[i].length, this.eventloop[i], "-" + this.debugmsg, this)
+        this.eventloop[i] = new CadenceNode(this.meter, this.eventloop[i].length, this.eventloop[i]/*subarray*/, this.engine, "-" + this.debugmsg, this)
       } else if (!this.eventloop[i].flag) {
         //Process verse: If current verse modifies sound but not nect, delete this and relace next block
         //Remember to reduce count but kee meter same
@@ -705,15 +707,18 @@ class CadenceNode {
     this.count = 0
   }
   run() {
+    if(!this.isactive)
+      return
     if (this.count >= this.eventloop.length) {
       Debugger.log('songended', "CadenceNode")
+      this.engine.finish()
       return
     }
-    if (this.maxcount > 0 && this.count >= this.maxcount) {
+    if (this.maxcount > 0 && this.count >= this.maxcount) {//If a child is done counting
       if (this.parent)
         this.parent.run();
       else
-        Debugger.log("cadence ended", "CadenceNode")
+        Debugger.log("cadence ended", "CadenceNode")//End of song, should never run
       return
     }
     Debugger.log(this.debugmsg + this.count + this.eventloop[this.count])
@@ -723,7 +728,7 @@ class CadenceNode {
       this.count++
     }
     else {
-      this.onstart()
+      this.onstart()//Send object message to singers
       this.count++
       if (this.maxcount == 0 || this.count < this.maxcount) {
         setTimeout(() => { this.run() }, this.meter)
@@ -740,6 +745,13 @@ class CadenceNode {
 }
 
 class SongEngine {
+  strip(res){
+    let i = res.length-1
+    while(res[i]==0){
+      res.pop()
+      i--
+    }
+  }
   formatpos(f){
     return Array.isArray(f)?f:[f]
   }
@@ -759,6 +771,7 @@ class SongEngine {
         res[x] -= this.dat.subdivs[x - 1]
       }
     }
+    this.strip(res)
     return res
   }
   multtime(p, t){//TODO
@@ -772,9 +785,10 @@ class SongEngine {
         res[x] -= this.dat.subdivs[x - 1]*g
       }
     }
+    this.strip(res)
     return res
   }
-  deshorten(str) {
+  deshorten(str) {//Compile names using provided templates
     if (str.indexOf('.') == -1) {
       return str
     }
@@ -782,21 +796,61 @@ class SongEngine {
     let rem = this.dat.majorsingers[str.substring(1, shi)]
     return rem + str.substring(shi)
   }
-  format(seq = this.events, targ = this.timetable, pos = [], anticipator = {}) {
+  totrack(str){
+    if (str.indexOf('.') == -1) {
+      return str
+    }
+    let shi = str.indexOf('/')
+    let rem = ""
+    if("I"==str.substring(1, shi)){
+      rem = this.island
+    }
+    return rem + str.substring(shi)
+  }
+  //Fills out an idle message from the anticipator, recursing until the correct time
+  subanticipate(targ, pos = [], ap/*If true, then only modify, don't add to timetable(premade)*/) {
+    for (var i = 0; i < targ.length; i++) {
+      let cp = [...pos, i]
+      let cps = cp.toString()
+      let ct = ap[0]
+      if(ct==cps){//Note: if [2 TODO
+        let t = targ[i]
+        for (var x of ap[1]) {
+          if(!t.join){t.join = {}}
+          t.join[x] = 'idle'
+        }
+      }else if(ct.indexOf(cps)==0){
+        console.log(cps+"Has been identified to efnvowrjgvoiefpvkeroivejrbe in "+ct)
+        //Turn element of array into subarray, set first element to old element, add empty objects to fill correct divisions, reprocess the anticipator
+        let currel = targ[i]
+        let t = []
+        targ[i] = t
+        t.push(currel)
+        for(let d = 0; d < this.dat.subdivs[pos.length]-1; d++){
+          t.push({})
+        }
+        this.subanticipate(t/*sequence to test*/, cp, [ct, ap[1]])
+        //continue
+      }
+    }
+  }
+  //Fills out the time table based on the event data, turning all reps into joins and leaves
+  format(seq = this.events, targ = this.timetable, pos = [], anticipator = {}, ismod = false/*If true, then only modify, don't add to timetable(premade)*/) {
     for (var i = 0; i < seq.length; i++) {
       let cp = [...pos, i]
       let f = seq[i]
       if (Array.isArray(f)) {
-        let g = {}
+        let g = []
         targ.push(g)
-        this.format(seq, g, cp, anticipator)
+        this.format(seq[i], g, cp, anticipator)
+        continue
       }
       let t = {}
       targ.push(t)
       if (f.join) {
         t.join = {}
         for (var x in f.join) {
-          t.join[this.deshorten(x)] = f.join[x]
+          t.join[this.deshorten(x)] = this.totrack(f.join[x])
         }
       }
       if (f.leave) {
@@ -807,7 +861,7 @@ class SongEngine {
           t.join[this.deshorten(x)] = 'idle'
         }
       }
-      if(f.jointrack){
+      if(f.jointrack){//track contains multiple monsters joining
         if (!t.join) {
           t.join = {}
         }
@@ -823,32 +877,57 @@ class SongEngine {
         }
         for (var x in f.rep) {
           let ro = this.deshorten(x)
-          t.join[ro] = f.rep[x][0]
-          let v = this.dat.tracks[x/*Use RO LATER WHEN TRACKS TRANSLATED TODO*/][f.rep[x][0]]
-          let v2 = f.rep[x][1]
-          let tp = this.addtime(cp, this.multtime(v, v2))
+          t.join[ro] = this.totrack(f.rep[x][0])
+          let v = this.dat.tracks[x/*Use RO LATER WHEN TRACKS TRANSLATED TODO*/][f.rep[x][0]]//track length
+          let v2 = f.rep[x][1]//times to rep
+          let tp = this.addtime(cp, this.multtime(v, v2))//Time to anticipate
           //console.log(tp)
           if(!anticipator[tp.toString()]){
             anticipator[tp.toString()] = []
           }
           anticipator[tp.toString()].push(ro)
+          console.log(anticipator)
         }
       }
-      if(anticipator[cp.toString()]){//Note: [2,0] doesn't trigger anticipator at [2] TODO
-        for (var x of anticipator[cp.toString()]) {
-          if(!t.join){t.join = {}}
-          t.join[x] = 'idle'
+      for(var ct in anticipator){
+        let cps = cp.toString()
+        if(ct==cps){//Note: if [2 TODO
+          for (var x of anticipator[cps]) {
+            if(!t.join){t.join = {}}
+            t.join[x] = 'idle'
+          }
+          delete anticipator[cps]
+        }else if(ct.indexOf(cps)==0){
+          console.log(cps+"Has been identified to efnvowrjgvoiefpvkeroivejrbe in "+ct)
+          //Turn element of array into subarray, set first element to old element, add empty objects to fill correct divisions, reprocess the anticipator
+          var currel = t
+          t = []
+          targ[i] = t
+          t.push(currel)
+          for(let d = 0; d < this.dat.subdivs[pos.length]-1; d++){
+            t.push({})
+          }
+          this.subanticipate(t/*sequence to test*/, cp, [ct, anticipator[ct]])
+          delete anticipator[cps]
         }
-        delete anticipator[cp.toString()]
       }
     }
   }
+  begin(){
+    this.cadence.reset()
+    this.cadence.run()
+  }
+  finish(){
+    this.begin()
+  }
   constructor({ type, env } = {}) {
     this.dat = Resourcer.getmeta(type)
+    this.type = type
+    this.island = type.includes("Song/")?type.substring(5):""//TODO
     this.events = this.dat.sequence
     this.timetable = []
     this.format()
-    this.cadence = new CadenceNode(1000 / (this.dat.bpm / 60) * this.dat.commonverse, -1, this.timetable)
+    this.cadence = new CadenceNode(1000 / (this.dat.bpm / 60) * this.dat.commonverse, -1, this.timetable, this)
   }
 }
 
@@ -1153,12 +1232,14 @@ env.bgimage.onload = (e) => {
 env.bgimage.src = env.island.getbgimage()
 
 var monsstorrm = new Monster({ typemini: "cc/storrm", env: env })
+var monsstorrm2 = new Monster({ typemini: "cc/storrm", env: env })
 var monsbruc = new Monster({ typemini: "cc/bruc", env: env })
 var monsbruc2 = new Monster({ typemini: "cc/bruc", env: env })
 //var monssnail = new Monster({typemini:"nn/snail",env:env})
 //var monsgam = new Monster({typemini:"nn/gam",env:env})
 monsbruc.local.orientation = -1
 env.island.place(env, monsstorrm, { x: 0, y: 0 })
+env.island.place(env, monsstorrm2, { x: 0, y: 60 })
 env.island.place(env, monsbruc, { x: 70, y: 20 })
 env.island.place(env, monsbruc2, { x: -70, y: 20 })
 //env.island.place(env, monssnail, {x:0,y:0})
@@ -1166,6 +1247,7 @@ env.island.place(env, monsbruc2, { x: -70, y: 20 })
 monsbruc2.loadparagon(env)
 monsbruc.loadparagon(env)
 monsstorrm.loadparagon(env)
+monsstorrm2.loadparagon(env)
 //Ordering works
 
 /*var song = new Song({blocks:[{
@@ -1210,3 +1292,40 @@ function BIGRENDER() {
   Debugger.log(env)
   Game.render()
 }
+//Testing here
+let tbv = arcanesong.cadence.meter
+//Current part in a song (circular degrees) is
+//(performance.now()%tbv)/tbv*360
+let animph = function(){
+  Game.render()
+  let songslice = (performance.now()%tbv)/tbv*360
+  //monsstorrm.paragon.renderer.skeleton.bones.deg=songslice
+  let storrmbones = monsstorrm.paragon.renderer.skeleton.bonedict
+  storrmbones.Leftstub.deg = 35*Math.sin(songslice/180*Math.PI)
+  storrmbones.Rightstub.deg = -35*Math.sin(songslice/180*Math.PI)
+  storrmbones.Leftheadstub.deg = 10*Math.sin(songslice/180*Math.PI)
+  storrmbones.Rightheadstub.deg = -10*Math.sin(songslice/180*Math.PI)
+  storrmbones.BodyBone.deg = 30*Math.sin(songslice/180*Math.PI)
+  let x = -10*Math.sin(songslice/180*Math.PI)
+  storrmbones.BodyLigament.x = x
+  storrmbones.BodyLigament.y = -20*Math.cos(x/60*Math.PI)+55
+  let brucbones = monsbruc.paragon.renderer.skeleton.bonedict
+  storrmbones.Leftstub.deg = 35*Math.sin(songslice/180*Math.PI)
+  Debugger.log(performance.now())
+}
+let interval = setInterval(animph, 20)
+/*Example formatting for anmimations
+idle: {
+  mode:'skeletal',
+  state:'.DEFAULTSTATE',
+  spans:{
+    state:{
+      length: 180,
+      controller: function(bdict, frame, funcs){
+        bdict.BodyBone.deg = funcs.sin(frame/2, 20)
+        bdict.Leftheadmount.deg = funcs.sin(frame, 35)
+      }
+    }
+  }
+}
+*/

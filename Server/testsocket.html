@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Hello!</title>
+   </head>
+   <script src = "/socket.io/socket.io.js"></script>
+   <script>
+      const socket = io();
+      function stuff(){
+         socket.emit('message');
+      }
+      socket.on('messagereturn', (socket)=>{
+         document.getElementById("ss").innerHTML = "Message received"
+      })
+   </script>
+   <body>Integrating Socket.io with Node.js and Express
+      <button onclick="stuff()">Send message to server</button>
+      <p id="ss"></p>
+   </body>
+</html>
