@@ -1,0 +1,22 @@
+{
+  "elements": [
+    "wave",
+    "tonic"
+  ],
+  "gridsize": {
+    "h": 1,
+    "k": 1
+  },
+  "defaultshopdata": {
+    "cost": {
+      "gem": 50
+    },
+    "levelreq": 10
+  },
+  "nativeislands": [
+    "Island/arcanic",
+    "Island/fdc",
+    "Island/future"
+  ],
+  "defaultbankdata": {}
+}

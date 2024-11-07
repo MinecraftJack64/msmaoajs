@@ -1,0 +1,18 @@
+{
+    "defaultshopdata": {
+      "cost": {
+        "coin": 1000000
+      },
+      "levelreq": 10
+    },
+    "nativeshop": {
+      "cats": [
+        "Monster"
+      ],
+      "Monsterclass": "Monster/cc",
+      "Monster": [
+        "./storrm",
+        "./bruc"
+      ]
+    }
+  }

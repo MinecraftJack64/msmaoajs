@@ -1,0 +1,21 @@
+{
+  "elements": [
+    "charge"
+  ],
+  "gridsize": {
+    "h": 2,
+    "k": 2
+  },
+  "defaultshopdata": {
+    "cost": {
+      "coin": 330
+    },
+    "levelreq": 10
+  },
+  "defaultbankdata": {},
+  "nativeislands": [
+    "Island/arcanic",
+    "Island/fdc",
+    "Island/future"
+  ]
+}

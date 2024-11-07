@@ -1,0 +1,60 @@
+{
+    "majorsingers": {
+        "C": "Monster/cc"
+    },
+    "format": "lobby",
+    "subdivs": [
+        2,
+        2
+    ],
+    "sequence": [
+        {
+        "rep": {
+            ".C/storrm": [
+            ".I/track1",
+            2
+            ],
+            ".C/bruc": [
+            ".I/track1",
+            1
+            ]
+        },
+        "join": {
+            ".C/staremin": ".I/track1"
+        }
+        },
+        {},
+        {
+        "rep": {
+            ".C/storrm": [
+            ".I/track2",
+            1
+            ]
+        }
+        },
+        {},
+        {
+        "leave": [
+            ".C/staremin"
+        ]
+        },
+        {}
+    ],
+    "bpm": 100,
+    "commonverse": 8,
+    "tracks": {
+        ".C/storrm": {
+        ".I/track1": 1,
+        ".I/track2": [
+            2,
+            1
+        ]
+        },
+        ".C/bruc": {
+        ".I/track1": 4
+        },
+        ".C/staremin": {
+        ".I/track1": 1
+        }
+    }
+}
